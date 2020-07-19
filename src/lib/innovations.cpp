@@ -36,6 +36,7 @@ void innovations::clear() {
 
 size_t innovations::new_innovation(const std::vector<std::pair<ssize_t, ssize_t>>& connections, size_t from, size_t to) {
     this -> innovs[from][to] = {innovation{this -> current_innovation, connections, from, to}};
+   // std::cout << "Innov: " << this -> current_innovation << std::endl;
     return this -> current_innovation++;
 }
 

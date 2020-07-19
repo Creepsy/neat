@@ -183,6 +183,8 @@ double genome::compare(const genome& other, const population_config& config) con
             continue;
         }
 
+        if(other.connections.at(c).first == -1 && this -> connections.at(c).first == -1) continue;
+
         if(other.connections.at(c).first == -1 || this -> connections.at(c).first == -1) {
             disjoint++;
             continue;

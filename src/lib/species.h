@@ -15,7 +15,8 @@ private:
     genome champ;
 public:
     species(const genome& g);
-    double play(score_func_t evaluate_function);
+    genome play(score_func_t evaluate_function);
+    const genome& get_champ() const;
     bool add(const genome& g, population_config& config);
     double recalculate_fitness();
     double get_fitness();

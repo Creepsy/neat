@@ -6,16 +6,21 @@ species::species(const genome& g) : fitness(0), champ(g) {
     this -> members.push_back(g);
 }
 
-double species::play(score_func_t evaluate_function) {
-    double highest = INT32_MIN;
+genome species::play(score_func_t evaluate_function) {
+    genome best = genome{0, 0, nullptr};
+    best.set_fitness(INT32_MIN);
     for(genome& g : this -> members) {
         evaluate_function(g);
-        if(g.get_fitness() > highest) {
-            highest = g.get_fitness();
+        if(g.get_fitness() > best.get_fitness()) {
+            best = g;
         }
     }
 
-    return highest;
+    return best;
+}
+
+const genome& species::get_champ() const {
+    return this -> champ;
 }
 
 bool species::add(const genome& g, population_config& config) {
@@ -36,11 +41,13 @@ double species::recalculate_fitness() {
 
     //this -> fitness /= this -> members.size();
 
-    return this -> fitness;
+    //return this -> fitness;
+    return (this -> fitness < 0) ? 0 : this -> fitness;
 }
 
 double species::get_fitness() {
-    return this -> fitness;
+   // return this -> fitness;
+   return (this -> fitness < 0) ? 0 : this -> fitness;
 }
 
 void species::prepare_breeding() {
@@ -51,6 +58,10 @@ void species::prepare_breeding() {
     for(int k = 0; k < to_kill; k++) {
         this -> members.pop_back();
     }
+
+    if(this -> get_size() > 0) {
+        this -> champ = this -> members.at(0);
+    }
 }
 
 size_t species::get_size() {
@@ -58,9 +69,6 @@ size_t species::get_size() {
 }
 
 void species::reset() {
-    if(this -> get_size() > 0) {
-        this -> champ = this -> members.at(0);
-    }
     this -> members.clear();
 }
 

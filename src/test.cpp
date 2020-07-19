@@ -13,10 +13,13 @@ void max_evaluation(genome& g);
 //improve innov numbers?!? IMPORTANT
 
 int main() {
-      srand(time(nullptr));
+     srand(time(nullptr));
   //  srand(10);
 
-    population_config config = population_config{150, 2, 1};
+    population_config config = population_config{150, 1, 1};
+    config.mutate_node = 0.01;
+    config.steps = (double)1 / 50;
+    //config.mutate_node = 1;
    
 
    /* genome a = genome{3, 2, sigmoid};
@@ -55,11 +58,26 @@ int main() {
     for(double val : b.run({1, 2, 3})) {
         std::cout << val << std::endl;
     }*/
-    population p = population{config, xor_evaluation, ReLU};
-    for(int i = 0; i < 1000; i++) {
-        std::cout << "Highest: " << p.play() << std::endl;
+    population p = population{config, max_evaluation, ReLU};
+    genome champ = genome{0, 0, nullptr};
+    for(int i = 0; i < 100; i++) {
+        genome best = p.play();
+        if(best.get_fitness() > champ.get_fitness()) champ = best;
+      
+      /*  std::cout << "Best: " << best.get_fitness() << std::endl;
+        std::cout << "1, 0 -> " << best.run({1, 0, 1}).at(0) << std::endl; 
+        std::cout << "0, 0 -> " << best.run({0, 0, 1}).at(0) << std::endl;
+        std::cout << "1, 1 -> " << best.run({1, 1, 1}).at(0) << std::endl;
+        std::cout << "0, 1 -> " << best.run({0, 1, 1}).at(0) << std::endl;
+        std::cout << "=====" << std::endl;*/
         p.breed();   
     }
+    std::cout << "Champ: " << champ.get_fitness() << std::endl;
+    std::cout << "1, 0 -> " << champ.run({1, 0, 1}).at(0) << std::endl; 
+    std::cout << "0, 0 -> " << champ.run({0, 0, 1}).at(0) << std::endl;
+    std::cout << "1, 1 -> " << champ.run({1, 1, 1}).at(0) << std::endl;
+    std::cout << "0, 1 -> " << champ.run({0, 1, 1}).at(0) << std::endl;
+    std::cout << "=====" << std::endl;
 }
 
 void xor_evaluation(genome& g) {
@@ -67,9 +85,9 @@ void xor_evaluation(genome& g) {
     double fitness = 0;
     for(int i = 0; i < 2; i++) {
         for(int j = 0; j < 2; j++) {
-            double result = g.run({(double)i, (double)j}).at(0);
+            double result = g.run({(double)i, (double)j, 1}).at(0);
             double expected = (i != j) ? 1 : 0;
-            std::cout << i << ", " << j << " -> " << result << std::endl;
+            //std::cout << i << ", " << j << " -> " << result << ", " << expected << ", " << fabs(expected - result) << std::endl;
             fitness += 1 - fabs(expected - result);
         }    
     }

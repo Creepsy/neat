@@ -18,7 +18,7 @@ private:
     innovations innovation_history;
 public:
     population(population_config& config, score_func_t evaluate_function, activation_t activation);
-    double play();
+    genome play();
     void add_to_species(const genome& g);
     void breed();
     ~population();

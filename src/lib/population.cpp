@@ -10,16 +10,17 @@ population::population(population_config& config, score_func_t evaluate_function
         }
 }
 
-double population::play() {
-    double highest = INT32_MIN;
+genome population::play() {
+    genome best = genome{0, 0, nullptr};
+    best.set_fitness(INT32_MIN);
     for(species& s : this -> specs) {
-        double s_highest = s.play(this -> evaluate_function);
-        if(s_highest > highest) {
-            highest = s_highest;
+        genome s_highest = s.play(this -> evaluate_function);
+        if(s_highest.get_fitness() > best.get_fitness()) {
+            best = s_highest;
         }
     }
 
-    return highest;
+    return best;
 }
 
 void population::add_to_species(const genome& g) {
@@ -44,7 +45,7 @@ void population::breed() {
         s.prepare_breeding();
     }
 
-    std::sort(this -> specs.begin(), this -> specs.end(), [](species& first, species& second) -> bool {return first.get_fitness() < second.get_fitness();});
+    std::sort(this -> specs.begin(), this -> specs.end(), [](species& first, species& second) -> bool {return first.get_fitness() > second.get_fitness();});
 
     std::vector<genome> children;
     for(int i = 0; i < this -> specs.size(); i++) {
@@ -81,8 +82,8 @@ void population::breed() {
     }
 
   /*  std::cout << "=====" << std::endl;
-    std::cout << "Children : " << children.size() << std::endl;
-    std::cout << "Species : " << this -> specs.size() << std::endl;*/
+    std::cout << "Children : " << children.size() << std::endl;*/
+    std::cout << "Species : " << this -> specs.size() << std::endl;
 
     for(genome& g : children) {
         this -> add_to_species(g);
