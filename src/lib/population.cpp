@@ -80,9 +80,9 @@ void population::breed() {
         s.reset();
     }
 
-    std::cout << "=====" << std::endl;
+  /*  std::cout << "=====" << std::endl;
     std::cout << "Children : " << children.size() << std::endl;
-    std::cout << "Species : " << this -> specs.size() << std::endl;
+    std::cout << "Species : " << this -> specs.size() << std::endl;*/
 
     for(genome& g : children) {
         this -> add_to_species(g);
@@ -91,7 +91,7 @@ void population::breed() {
     /*for(species& s : this -> specs) {
         std::cout << s.get_size() << std::endl;
     }*/
-    std::cout << "=====" << std::endl;
+ //   std::cout << "=====" << std::endl;
 
     this -> generation++;
     this -> innovation_history.clear();

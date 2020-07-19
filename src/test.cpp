@@ -17,11 +17,7 @@ int main() {
   //  srand(10);
 
     population_config config = population_config{150, 2, 1};
-    config.compatibility_threshold = 7;
-    config.mutate_connection = 0.005;
-    config.mutate_node = 0.003;
-    config.mutate_enable = 0;
-    config.mutate_disable = 0;
+   
 
    /* genome a = genome{3, 2, sigmoid};
     genome b = genome{3, 2, sigmoid};
@@ -59,8 +55,8 @@ int main() {
     for(double val : b.run({1, 2, 3})) {
         std::cout << val << std::endl;
     }*/
-    population p = population{config, xor_evaluation, sigmoid};
-    for(int i = 0; i < 100; i++) {
+    population p = population{config, xor_evaluation, ReLU};
+    for(int i = 0; i < 1000; i++) {
         std::cout << "Highest: " << p.play() << std::endl;
         p.breed();   
     }
@@ -73,7 +69,7 @@ void xor_evaluation(genome& g) {
         for(int j = 0; j < 2; j++) {
             double result = g.run({(double)i, (double)j}).at(0);
             double expected = (i != j) ? 1 : 0;
-
+            std::cout << i << ", " << j << " -> " << result << std::endl;
             fitness += 1 - fabs(expected - result);
         }    
     }
@@ -90,5 +86,5 @@ double ReLU(double x) {
 }
 
 double sigmoid(double x) {
-    return 1 / (1 + pow(M_E, -4.9 * x));
+    return 1 / (1 + pow(M_E, x));
 }

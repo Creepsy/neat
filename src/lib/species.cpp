@@ -34,7 +34,7 @@ double species::recalculate_fitness() {
         this -> fitness += g.get_fitness();
     }
 
-    this -> fitness /= this -> members.size();
+    //this -> fitness /= this -> members.size();
 
     return this -> fitness;
 }
