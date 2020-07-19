@@ -125,14 +125,14 @@ genome& genome::mutate(const population_config& config, innovations& innovation_
     if(this -> rand_range(0, 1) <= config.mutate_connection) {
         this -> mutate_connection(innovation_history);
     }
-
+/*
     if(this -> rand_range(0, 1) <= config.mutate_disable) {
         this -> mutate_state(false);
     }
 
     if(this -> rand_range(0, 1) <= config.mutate_enable) {
         this -> mutate_state(true);
-    }
+    }*/
 
     return *this;
 }

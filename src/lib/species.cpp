@@ -59,7 +59,7 @@ void species::prepare_breeding() {
         this -> members.pop_back();
     }
 
-    if(this -> get_size() > 0) {
+    if(this -> get_size() > 0 && this -> members.at(0).get_fitness() > this -> champ.get_fitness()) {
         this -> champ = this -> members.at(0);
     }
 }
