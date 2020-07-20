@@ -36,13 +36,13 @@ void population::breed() {
         species& s = this -> specs.at(i);
 
         if(s.get_size() == 0){
-            this -> specs.erase(this -> specs.begin() + i),
+            this -> specs.erase(this -> specs.begin() + i);
             i--;
             continue;
         }
 
-        total += s.recalculate_fitness();
         s.prepare_breeding();
+        total += s.recalculate_fitness();
     }
 
     std::sort(this -> specs.begin(), this -> specs.end(), [](species& first, species& second) -> bool {return first.get_fitness() > second.get_fitness();});
@@ -53,6 +53,8 @@ void population::breed() {
         double percentage = s.get_fitness() / total;
         size_t child_count = (size_t)(percentage * this -> config.population_size);
 
+       // std::cout << s.get_fitness() << " -> " << child_count << std::endl;
+
         if(child_count == 0 || percentage <= 0) {
             total -= s.get_fitness();
             this -> specs.erase(this -> specs.begin() + i);
@@ -62,6 +64,15 @@ void population::breed() {
 
         if(child_count > this -> config.population_size) {
             child_count = this -> config.population_size;
+        }
+
+        if(children.size() + child_count > this -> config.population_size){
+            child_count = this -> config.population_size - children.size();
+        }
+
+        if(child_count > 0) {
+            children.push_back(s.get_champ());
+            child_count--;
         }
 
         for(int c = 0; c < child_count; c++) {

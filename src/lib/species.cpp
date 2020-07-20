@@ -35,11 +35,11 @@ double species::recalculate_fitness() {
     this -> fitness = 0;
 
     for(genome& g : this -> members) {
-        g.set_fitness(g.get_fitness() / this -> members.size());
+        //g.set_fitness(g.get_fitness() / this -> members.size());
         this -> fitness += g.get_fitness();
     }
 
-    //this -> fitness /= this -> members.size();
+    this -> fitness /= this -> members.size();
 
     //return this -> fitness;
     return (this -> fitness < 0) ? 0 : this -> fitness;
@@ -53,7 +53,9 @@ double species::get_fitness() {
 void species::prepare_breeding() {
     std::sort(this -> members.begin(), this -> members.end(), [](genome& first, genome& second) -> bool {return first.get_fitness() > second.get_fitness();});
 
-    size_t to_kill = (size_t)(this -> members.size() * 0.5);
+    //std::cout << "Best " << this -> members.at(0).get_fitness() << ", Worst " << this -> members.at(this -> members.size() - 1).get_fitness() << ", Size " << this -> members.size() << ", Fitness " << this -> get_fitness() << std::endl; 
+
+    size_t to_kill = (size_t)(this -> members.size() * 0.5);//change to 0.75?
 
     for(int k = 0; k < to_kill; k++) {
         this -> members.pop_back();

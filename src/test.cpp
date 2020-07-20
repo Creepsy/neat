@@ -10,14 +10,12 @@ void xor_evaluation(genome& g);
 double ReLU(double x);
 void max_evaluation(genome& g);
 
-//improve innov numbers?!? IMPORTANT
-
 int main() {
-   // srand(time(nullptr));
+    //srand(time(nullptr));
     //srand(11);
 
-    population_config config = population_config{150, 3, 1};
-    //config.mutate_node = 1;   
+    population_config config = population_config{300, 3, 1};
+    config.steps = 0.1;
 
    /* genome a = genome{3, 2, sigmoid};
     genome b = genome{3, 2, sigmoid};
@@ -55,6 +53,9 @@ int main() {
     for(double val : b.run({1, 2, 3})) {
         std::cout << val << std::endl;
     }*/
+
+
+    
     population p = population{config, xor_evaluation, sigmoid};
     genome champ = genome{0, 0, nullptr};
     for(int i = 0; i < 100; i++) {
@@ -83,7 +84,13 @@ int main() {
     std::cout << "1, 1 -> " << champ.run({1, 1, 1}).at(0) << std::endl;
     std::cout << "0, 1 -> " << champ.run({0, 1, 1}).at(0) << std::endl;
     std::cout << "=====" << std::endl;
-    
+    std::cout << champ.is_fully_connected() << std::endl;
+    config.mutate_connection = 1;
+    config.mutate_node = 0;
+    innovations n = innovations{400};
+    while(!champ.is_fully_connected()) champ.mutate(config, n);
+    std::cout << champ.is_fully_connected() << std::endl;
+    std::cout << champ << std::endl;
 }
 
 void xor_evaluation(genome& g) {
