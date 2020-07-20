@@ -31,7 +31,6 @@ private:
     double fitness;
 
     activation_t activation;
-    size_t input_count, output_count;
 
     std::map<size_t, std::map<size_t, connection>> network;
     std::vector<node_data> nodes;
@@ -42,6 +41,7 @@ private:
     void mutate_connection(innovations& innovation_history);
     void mutate_state(const bool state);
 public:
+    size_t input_count, output_count;
     genome(const size_t input_count, const size_t output_count, activation_t activation);
     void add_connection(const connection& c);
     void add_connection(const size_t innov_number, const size_t from_node, const size_t to_node, double weight = 1, bool active = true);
