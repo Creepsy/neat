@@ -84,13 +84,13 @@ int main() {
     std::cout << "1, 1 -> " << champ.run({1, 1, 1}).at(0) << std::endl;
     std::cout << "0, 1 -> " << champ.run({0, 1, 1}).at(0) << std::endl;
     std::cout << "=====" << std::endl;
-    std::cout << champ.is_fully_connected() << std::endl;
+    /*std::cout << champ.is_fully_connected() << std::endl;
     config.mutate_connection = 1;
     config.mutate_node = 0;
     innovations n = innovations{400};
     while(!champ.is_fully_connected()) champ.mutate(config, n);
     std::cout << champ.is_fully_connected() << std::endl;
-    std::cout << champ << std::endl;
+    std::cout << champ << std::endl;*/
 }
 
 void xor_evaluation(genome& g) {
