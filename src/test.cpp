@@ -11,11 +11,13 @@ double ReLU(double x);
 void max_evaluation(genome& g);
 
 int main() {
-    //srand(time(nullptr));
+    srand(time(nullptr));
     //srand(11);
 
     population_config config = population_config{300, 3, 1};
     config.steps = 0.1;
+    config.mutate_connection = 0.01;
+    config.mutate_node = 0.002;
 
    /* genome a = genome{3, 2, sigmoid};
     genome b = genome{3, 2, sigmoid};
@@ -58,7 +60,7 @@ int main() {
     
     population p = population{config, xor_evaluation, sigmoid};
     genome champ = genome{0, 0, nullptr};
-    for(int i = 0; i < 100; i++) {
+    for(int i = 0; i < 400; i++) {
         genome best = p.play();
         if(best.get_fitness() > champ.get_fitness()) champ = best;
 
@@ -95,17 +97,18 @@ int main() {
 
 void xor_evaluation(genome& g) {
     g.set_fitness(0);
-    double fitness = 0;
+    double fitness = 4;
     for(int i = 0; i < 2; i++) {
         for(int j = 0; j < 2; j++) {
             double result = g.run({(double)i, (double)j, 1}).at(0);
             double expected = (i != j) ? 1 : 0;
            // std::cout << i << ", " << j << " -> " << result << ", " << expected << ", " << 1 - fabs(expected - result) << std::endl;
-            fitness += 1 - fabs(expected - result);
+          // fitness += 1 - fabs(expected - result);
+          fitness -= (expected - result) * (expected - result);
         }    
     }
 
-    g.set_fitness(fitness * fitness);
+    g.set_fitness(fitness);
 }
 
 void max_evaluation(genome& g) {
