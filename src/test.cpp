@@ -17,7 +17,7 @@ int main() {
     population_config config = population_config{300, 3, 1};
     config.steps = 0.1;
     config.mutate_connection = 0.01;
-    config.mutate_node = 0.002;
+    config.mutate_node = 0.0005;
 
    /* genome a = genome{3, 2, sigmoid};
     genome b = genome{3, 2, sigmoid};
@@ -60,7 +60,7 @@ int main() {
     
     population p = population{config, xor_evaluation, sigmoid};
     genome champ = genome{0, 0, nullptr};
-    for(int i = 0; i < 400; i++) {
+    for(int i = 0; i < 100; i++) {
         genome best = p.play();
         if(best.get_fitness() > champ.get_fitness()) champ = best;
 
