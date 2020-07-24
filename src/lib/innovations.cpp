@@ -32,6 +32,7 @@ size_t innovations::get_innovation(const std::vector<std::pair<ssize_t, ssize_t>
 }
 
 void innovations::clear() {
+    this -> innovs.clear();
 }
 
 size_t innovations::new_innovation(const std::vector<std::pair<ssize_t, ssize_t>>& connections, size_t from, size_t to) {
